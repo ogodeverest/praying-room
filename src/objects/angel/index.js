@@ -5,7 +5,8 @@ export default class Angel extends Group {
   constructor() {
     super();
     this.name = "angel";
-    this.url = "/src/objects/angel/object/scene.gltf";
+    this.url =
+      "https://github.com/ogodeverest/praying-room/blob/master/src/objects/angel/object/scene.gltf";
 
     const manager = new LoadingManager();
 
@@ -20,7 +21,7 @@ export default class Angel extends Group {
 
     const loader = new GLTFLoader(manager);
 
-    loader.load("/src/objects/angel/object/scene.gltf", gltf => {
+    loader.load(this.url, gltf => {
       this.add(gltf.scene);
     });
 
