@@ -12,10 +12,16 @@ export default class Angel extends Group {
 
     manager.onProgress = function(url, itemsLoaded, itemsTotal) {
       // const width = (itemsLoaded / itemsTotal) * 100 + "%";
-      const loader = document.querySelector(".loading__indicator");
-      loader.style.transform = `scaleX(${itemsLoaded / itemsTotal})`;
+      const loaderBar = document.querySelector(".loading__indicator");
+      loaderBar.style.transform = `scaleX(${itemsLoaded / itemsTotal})`;
+    
       if (itemsLoaded / itemsTotal === 1) {
+        loaderBar.style.transform = `scaleX(0)`;
+        loaderBar.style.transformOrigin = `right`;
+        setTimeout(()=>{
         document.querySelector(".loading").style.display = "none";
+        },200)
+       
       }
     };
 

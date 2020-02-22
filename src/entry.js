@@ -87,7 +87,7 @@ function createLoaderScreen() {
   loadingIndicator.style.height = "100%";
   loadingIndicator.style.width = "100%";
   loadingIndicator.style.transform = "scaleX(0)";
-  loadingIndicator.style.transition = ".5s transform";
+  loadingIndicator.style.transition = ".8s transform";
   loadingIndicator.style.transformOrigin = "left";
   loadingIndicator.style.backgroundColor = "#f41f9c";
   loadingIndicator.style.boxShadow = `0 0 10px #ae0306, 0 0 20px #ae0306, 0 0 30px #ae0306, 0 0 40px #ae0306, 0 0 70px #ae0306, 0 0 80px #ae0306, 0 0 100px #ae0306, 0 0 150px #ae0306`;
