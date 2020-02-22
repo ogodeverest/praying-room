@@ -6,7 +6,7 @@ export default class Angel extends Group {
     super();
     this.name = "angel";
     this.url =
-      "https://github.com/ogodeverest/praying-room/blob/master/src/objects/angel/object/scene.gltf";
+      "https://raw.githubusercontent.com/ogodeverest/praying-room/master/src/objects/angel/object/scene.gltf";
 
     const manager = new LoadingManager();
 
