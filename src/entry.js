@@ -9,6 +9,11 @@
 
 import { WebGLRenderer, PerspectiveCamera, Scene, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+import { FilmPass } from "three/examples/jsm/postprocessing/FilmPass.js";
+import { BloomPass } from "three/examples/jsm/postprocessing/BloomPass.js";
+import { GlitchPass } from "three/examples/jsm/postprocessing/GlitchPass.js";
 
 import SeedScene from "./objects/Scene.js";
 
@@ -16,7 +21,18 @@ const scene = new Scene();
 const camera = new PerspectiveCamera(45, 2, 0.1, 100);
 const renderer = new WebGLRenderer({ antialias: true });
 renderer.shadowMap.enabled = true;
+
 const seedScene = new SeedScene();
+
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+
+const filmPass = new FilmPass(0.9, 0.09, 648, false);
+composer.addPass(filmPass);
+
+const glitchPass = new GlitchPass(100);
+glitchPass.renderToScreen = true;
+composer.addPass(glitchPass);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
@@ -32,9 +48,15 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setClearColor(0x000000, 1);
 
 // render loop
+let then = 0;
 const onAnimationFrameHandler = timeStamp => {
+  timeStamp *= 0.001;
+  const deltaTime = timeStamp - then;
+  then = timeStamp;
+
   controls.update();
-  renderer.render(scene, camera);
+  // renderer.render(scene, camera);
+  composer.render(deltaTime);
   seedScene.update && seedScene.update(timeStamp);
   window.requestAnimationFrame(onAnimationFrameHandler);
 };
@@ -44,7 +66,9 @@ window.requestAnimationFrame(onAnimationFrameHandler);
 const windowResizeHanlder = () => {
   const { innerHeight, innerWidth } = window;
   renderer.setSize(innerWidth, innerHeight);
+  composer.setSize(innerWidth, innerHeight);
   camera.aspect = innerWidth / innerHeight;
+
   camera.updateProjectionMatrix();
 };
 windowResizeHanlder();

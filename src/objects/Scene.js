@@ -9,7 +9,6 @@ export default class SeedScene extends Group {
   }
 
   update(time) {
-    time *= 0.001;
     const speed = time / 10;
 
     this.room.cross.crossLight.light.distance = MathUtils.lerp(
@@ -17,6 +16,5 @@ export default class SeedScene extends Group {
       18,
       Math.abs(Math.sin(speed))
     );
-    // this.rotation.y = timeStamp / 10000;
   }
 }

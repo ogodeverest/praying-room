@@ -11,7 +11,6 @@ export default class Angel extends Group {
     const manager = new LoadingManager();
 
     manager.onProgress = function(url, itemsLoaded, itemsTotal) {
-      // const width = (itemsLoaded / itemsTotal) * 100 + "%";
       const loaderBar = document.querySelector(".loading__indicator");
       loaderBar.style.transform = `scaleX(${itemsLoaded / itemsTotal})`;
     
