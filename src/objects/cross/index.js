@@ -4,29 +4,32 @@ import {
   MeshBasicMaterial,
   Mesh,
   Object3D,
-  ExtrudeGeometry
-} from "three";
-import geometricGlowMesh from "./effects/threex.geometricglowmesh";
-import addAtmosphereMaterial2DatGui from "./effects/threex.atmospherematerialdatgui";
-import CrossLight from "../crossLight";
-import * as dat from "dat.gui";
+  ExtrudeGeometry,
+  CircleGeometry,
+  MeshStandardMaterial,
+} from 'three';
+import geometricGlowMesh from './effects/threex.geometricglowmesh';
+import addAtmosphereMaterial2DatGui from './effects/threex.atmospherematerialdatgui';
+import CrossLight from '../crossLight';
+import * as dat from 'dat.gui';
 
 export default class Cross extends Group {
+  name = 'cross';
+
   constructor() {
     super();
 
-    this.name = "cross";
     const crossOrbit = new Object3D();
     const crossShape = this.generateCrossShape(4);
 
-    const crossMesh = this.generateExtrudeGeometry(crossShape);
-    crossMesh.scale.set(1.4, 1.4, 1.4);
-    crossMesh.receiveShadow = true;
-    this.addGlowMesh(crossMesh);
+    this.crossMesh = this.generateExtrudeGeometry(crossShape);
+    this.crossMesh.scale.set(1.4, 1.4, 1.4);
+    this.crossMesh.receiveShadow = true;
+    this.addGlowMesh(this.crossMesh);
 
     this.crossLight = new CrossLight();
 
-    crossOrbit.add(crossMesh);
+    crossOrbit.add(this.crossMesh);
     crossOrbit.add(this.crossLight);
 
     this.position.set(0, 0, 0);
@@ -42,7 +45,7 @@ export default class Cross extends Group {
       bevelThickness: 0.1,
       bevelSize: 0.05,
       bevelOffset: 0,
-      bevelSegments: 1
+      bevelSegments: 1,
     };
 
     const geometry = new ExtrudeGeometry(shape, extrudeSettings);
@@ -65,7 +68,7 @@ export default class Cross extends Group {
     crossShape.lineTo(length * divisionOne, leftArmWidth);
     crossShape.lineTo(
       (length * (divisionTwo + divisionOne)) / 2,
-      leftArmWidth - width
+      leftArmWidth - width,
     );
 
     crossShape.lineTo(length * divisionTwo, leftArmWidth);
@@ -77,7 +80,7 @@ export default class Cross extends Group {
     crossShape.lineTo(length * divisionTwo, rightArmWidth);
     crossShape.lineTo(
       (length * (divisionTwo + divisionOne)) / 2,
-      rightArmWidth + width
+      rightArmWidth + width,
     );
     crossShape.lineTo(length * divisionOne, rightArmWidth);
     crossShape.lineTo(length * divisionOne, width);

@@ -1,14 +1,14 @@
-import { Object3D, BackSide, Mesh, Color } from "three";
-import dilateGeometry from "./threex.dilategeometry";
-import createAtmosphereMaterial from "./threex.atmospherematerial";
+import { Object3D, BackSide, Mesh, Color } from 'three';
+import dilateGeometry from './threex.dilategeometry';
+import createAtmosphereMaterial from './threex.atmospherematerial';
 
-const GeometricGlowMesh = function(mesh) {
+const GeometricGlowMesh = function (mesh) {
   const object3d = new Object3D();
 
   let insideGeometry = mesh.geometry.clone();
   dilateGeometry(insideGeometry, 0.01);
   let insideMaterial = createAtmosphereMaterial();
-  insideMaterial.uniforms.glowColor.value = new Color("cyan");
+  insideMaterial.uniforms.glowColor.value = new Color('cyan');
   insideMaterial.uniforms.coeficient.value = 1.1;
   insideMaterial.uniforms.power.value = 1.4;
   const insideMesh = new Mesh(insideGeometry, insideMaterial);
@@ -17,7 +17,7 @@ const GeometricGlowMesh = function(mesh) {
   let outsideGeometry = mesh.geometry.clone();
   dilateGeometry(outsideGeometry, 0.1);
   let outsideMaterial = createAtmosphereMaterial();
-  outsideMaterial.uniforms.glowColor.value = new Color("cyan");
+  outsideMaterial.uniforms.glowColor.value = new Color('cyan');
   outsideMaterial.uniforms.coeficient.value = 0.1;
   outsideMaterial.uniforms.power.value = 1.2;
   outsideMaterial.side = BackSide;

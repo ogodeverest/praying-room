@@ -3,11 +3,11 @@
  * @param  {THREE.Geometry} geometry geometry to dilate
  * @param  {Number} length   percent to dilate, use negative value to erode
  */
-import { Face3, Face4 } from "three";
-const dilateGeometry = function(geometry, length) {
+import { Face3, Face4 } from 'three';
+const dilateGeometry = function (geometry, length) {
   // gather vertexNormals from geometry.faces
   const vertexNormals = new Array(geometry.vertices.length);
-  geometry.faces.forEach(function(face) {
+  geometry.faces.forEach(function (face) {
     if (face instanceof Face4) {
       vertexNormals[face.a] = face.vertexNormals[0];
       vertexNormals[face.b] = face.vertexNormals[1];
@@ -20,7 +20,7 @@ const dilateGeometry = function(geometry, length) {
     } else console.assert(false);
   });
   // modify the vertices according to vertextNormal
-  geometry.vertices.forEach(function(vertex, idx) {
+  geometry.vertices.forEach(function (vertex, idx) {
     const vertexNormal = vertexNormals[idx];
     vertex.x += vertexNormal.x * length;
     vertex.y += vertexNormal.y * length;
