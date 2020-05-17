@@ -1,17 +1,19 @@
-import { Group, DirectionalLight } from "three";
+import { Group, DirectionalLight } from 'three';
 
 export default class BasicLights extends Group {
+  name = 'Lights';
   constructor(...args) {
     super(...args);
 
-    const dirLightOne = new DirectionalLight(0xffffff, 1);
-    dirLightOne.position.set(5, 1, 2);
-    dirLightOne.target.position.set(0, 0, 0);
-
-    const dirLightTwo = new DirectionalLight(0xffffff, 1);
-    dirLightTwo.position.set(-5, 1, 2);
-    dirLightTwo.target.position.set(0, 1, 0);
-
+    this.createDirLight(5, 1, 2);
+    this.createDirLight(-5, 1, 2);
     this.add(dirLightOne);
   }
+
+  createDirLight = (...pos) => {
+    const dirLight = new DirectionalLight(0xffffff, 1);
+    dirLightTwo.position.set(...pos);
+    dirLightTwo.target.position.set(0, 1, 0);
+    this.add(dirLight);
+  };
 }
