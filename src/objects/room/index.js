@@ -9,11 +9,11 @@ import {
 } from 'three';
 import Cross from '../cross';
 import Angel from '../angel';
-import diffuseTexturePath from './textures4k/large_sandstone_blocks_01_diff_4k.jpg';
-import normalTexturePath from './textures4k/large_sandstone_blocks_01_nor_4k.jpg';
-import aoTexturePath from './textures4k/large_sandstone_blocks_01_ao_4k.jpg';
-import disTexturePath from './textures4k/large_sandstone_blocks_01_disp_4k.jpg';
-import roughTexturePath from './textures4k/large_sandstone_blocks_01_rough_4k.jpg';
+import diffuseTexturePath from './compressed_textures/large_sandstone_blocks_01_diff_4k-min.jpg';
+import normalTexturePath from './compressed_textures/large_sandstone_blocks_01_nor_4k-min.jpg';
+import aoTexturePath from './compressed_textures/large_sandstone_blocks_01_ao_4k-min.jpg';
+import disTexturePath from './compressed_textures/large_sandstone_blocks_01_disp_4k-min.jpg';
+import roughTexturePath from './compressed_textures/large_sandstone_blocks_01_rough_4k-min.jpg';
 export default class Room extends Group {
   name = 'room';
   constructor(manager) {
