@@ -1,13 +1,35 @@
-import { Group, Math as MathUtils, LoadingManager } from 'three';
+import {
+  Group,
+  Math as MathUtils,
+  AudioLoader,
+  Audio,
+  LoadingManager,
+} from 'three';
 import Room from './room';
+import BasicLights from './Lights';
+import fireSounds from '../audio/fire.mp3';
+
 export default class SeedScene extends Group {
-  constructor() {
+  constructor(listener) {
     super();
     this.createLoadingManager();
     this.room = new Room(this.manager);
+    this.lights = new BasicLights();
     this.add(this.room);
+    this.loadAudio(listener, this.manager);
   }
 
+  loadAudio = (listener, manager) => {
+    const sound = new Audio(listener);
+
+    const audioLoader = new AudioLoader(manager);
+    audioLoader.load(fireSounds, (buffer) => {
+      sound.setBuffer(buffer);
+      sound.setLoop(true);
+      sound.setVolume(0.1);
+      sound.play();
+    });
+  };
   createLoadingManager = () => {
     this.manager = new LoadingManager();
 
@@ -17,8 +39,6 @@ export default class SeedScene extends Group {
       console.log(loaderBar.style.transform);
 
       if (itemsLoaded / itemsTotal === 1) {
-        // loaderBar.style.transform = `scaleX(0)`;
-        // loaderBar.style.transformOrigin = `right`;
         setTimeout(() => {
           document.querySelector('.loading').style.display = 'none';
         }, 2000);
@@ -28,12 +48,6 @@ export default class SeedScene extends Group {
 
   update(time) {
     const speed = time / 10;
-
-    this.room.animateRoom();
-    // this.room.cross.crossLight.light.distance = MathUtils.lerp(
-    //   10,
-    //   18,
-    //   Math.abs(Math.sin(speed))
-    // );
+    this.room.animateRoom(speed);
   }
 }

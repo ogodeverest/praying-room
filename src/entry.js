@@ -7,7 +7,7 @@
  *
  */
 
-import { WebGLRenderer, PerspectiveCamera, Scene } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Scene, AudioListener } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import {
   GodRaysEffect,
@@ -15,16 +15,26 @@ import {
   KernelSize,
   EffectComposer,
   RenderPass,
-  FilmPass,
 } from 'postprocessing/build/postprocessing';
+import gsap from 'gsap';
 import SeedScene from './objects/Scene.js';
-
+import logo from './images/logo.ico';
 const scene = new Scene();
-const camera = new PerspectiveCamera(45, 2, 0.1, 100);
-const renderer = new WebGLRenderer({ antialias: true });
-renderer.shadowMap.enabled = true;
+const camera = new PerspectiveCamera(35, 2, 0.1, 100);
+camera.position.set(0, 10, 32);
 
-const seedScene = new SeedScene();
+const tl = gsap.timeline();
+
+const renderer = new WebGLRenderer({ antialias: true, alpha: true });
+renderer.autoClear = false;
+renderer.shadowMap.enabled = true;
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setClearColor(0x000000, 1);
+const listener = new AudioListener();
+camera.add(listener);
+
+const seedScene = new SeedScene(listener);
+scene.add(seedScene);
 
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
@@ -52,15 +62,10 @@ composer.addPass(pass);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.enableZoom = false;
+controls.target.set(0, -3, 30);
+
+animateCamera();
 // scene
-scene.add(seedScene);
-
-// camera
-camera.position.set(0, 0, 8.5);
-
-// renderer
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setClearColor(0x000000, 1);
 
 // render loop
 let then = 0;
@@ -68,7 +73,6 @@ const onAnimationFrameHandler = (timeStamp) => {
   timeStamp *= 0.001;
   const deltaTime = timeStamp - then;
   then = timeStamp;
-
   controls.update();
   composer.render(deltaTime);
   seedScene.update && seedScene.update(timeStamp);
@@ -89,16 +93,9 @@ windowResizeHanlder();
 window.addEventListener('resize', windowResizeHanlder);
 
 // dom
-document.body.style.margin = 0;
-document.body.style.width = '100%';
-document.body.style.height = '100%';
-//loader
-document.title = 'Praying Room';
+initDefaultStyles();
 createLoaderScreen();
 //renderer
-renderer.domElement.style.width = '100%';
-renderer.domElement.style.height = '100%';
-renderer.domElement.style.display = 'block';
 
 document.body.appendChild(renderer.domElement);
 
@@ -132,4 +129,38 @@ function createLoaderScreen() {
   loadingIndicator.style.boxShadow = `0 0 10px #ae0306, 0 0 20px #ae0306, 0 0 30px #ae0306, 0 0 40px #ae0306, 0 0 70px #ae0306, 0 0 80px #ae0306, 0 0 100px #ae0306, 0 0 150px #ae0306`;
 
   loadingBar.appendChild(loadingIndicator);
+
+  const link = document.createElement('link');
+  link.setAttribute('rel', 'icon');
+  link.setAttribute('href', logo);
+  document.getElementsByTagName('head')[0].appendChild(link);
+}
+
+function initDefaultStyles() {
+  document.body.style.margin = 0;
+  document.body.style.width = '100%';
+  document.body.style.height = '100%';
+  document.title = 'Praying Room';
+  renderer.domElement.style.width = '100%';
+  renderer.domElement.style.height = '100%';
+  renderer.domElement.style.display = 'block';
+}
+
+function animateCamera() {
+  tl.to(controls.target, {
+    duration: 18,
+    y: 6,
+    z: 0,
+    ease: 'slow(0.7, 0.7, false)',
+  }).to(
+    camera.position,
+    {
+      duration: 20,
+      z: 5,
+      y: 10,
+      x: 0,
+      ease: 'slow(0.7, 0.7, false)',
+    },
+    '-=4',
+  );
 }

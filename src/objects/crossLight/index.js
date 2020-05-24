@@ -16,7 +16,7 @@ export default class CrossLight extends Group {
     const intensity = 1.86;
     this.light = new PointLight(color, intensity);
     this.light.castShadow = true;
-    this.light.distance = 18;
+    this.light.distance = 25;
     this.add(this.light);
   };
 }
