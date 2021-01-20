@@ -19,7 +19,7 @@
     "@vxna/gltf-loader": "^2.0.1",
     "dat.gui": "^0.7.6",
     "gltf-webpack-loader": "^1.0.6",
-    "gsap": "^3.2.6",
+    "gsap": "^3.6.0",
     "postprocessing": "^6.13.5",
     "three": "^0.114.0",
     "three-obj-loader": "^1.1.3",
