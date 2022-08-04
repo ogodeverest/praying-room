@@ -1,4 +1,19 @@
 
+# Praying room
+
+Experimenting with volumetric lights.
+## Acknowledgements
+
+ - [Three.js](https://threejs.org/manual/#en/fundamentals)
+
+
+
+## Demo
+
+ - [Live Demo](https://ogodeverest.github.io/praying-room/)
+
+
+
 ## Run Locally
 
 Clone the project
@@ -25,3 +40,7 @@ Start the server
   npm run start
 ```
 
+
+## Tech Stack
+
+**Client:** Three.js
