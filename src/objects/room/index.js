@@ -14,7 +14,7 @@ import normalTexturePath from './compressed_textures/large_sandstone_blocks_01_n
 import aoTexturePath from './compressed_textures/large_sandstone_blocks_01_ao_4k-min.jpg';
 import disTexturePath from './compressed_textures/large_sandstone_blocks_01_disp_4k-min.jpg';
 import roughTexturePath from './compressed_textures/large_sandstone_blocks_01_rough_4k-min.jpg';
-import Pillars from '../pillars';
+
 export default class Room extends Group {
   name = 'room';
   constructor(manager) {
@@ -51,17 +51,10 @@ export default class Room extends Group {
     this.angel = new Angel(manager);
     this.angel.position.set(0, -roomSize / 2 + 2, -roomSize / 2);
 
-    this.pillars = new Pillars(manager);
-    this.pillars.position.set(0, -roomSize / 2, -roomSize + 5);
-
     roomOrbit.add(roomMesh);
     roomOrbit.add(this.cross);
     roomOrbit.add(this.angel);
-    roomOrbit.add(this.pillars);
-    this.add(roomOrbit);
-  };
 
-  animateRoom = (speed) => {
-    this.pillars.animatePillars(speed);
+    this.add(roomOrbit);
   };
 }

@@ -7,7 +7,13 @@
  *
  */
 
-import { WebGLRenderer, PerspectiveCamera, Scene, AudioListener } from 'three';
+import {
+  WebGLRenderer,
+  PerspectiveCamera,
+  Scene,
+  AudioListener,
+  CameraHelper,
+} from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import {
   GodRaysEffect,
@@ -16,22 +22,24 @@ import {
   EffectComposer,
   RenderPass,
 } from 'postprocessing/build/postprocessing';
-import gsap from 'gsap';
+import TWEEN from '@tweenjs/tween.js';
 import SeedScene from './objects/Scene.js';
 import logo from './images/logo.ico';
+
 const scene = new Scene();
 const camera = new PerspectiveCamera(35, 2, 0.1, 100);
+const camera2 = new PerspectiveCamera(35, 2, 0.1, 100);
+scene.add(camera2);
+const cameraHelper = new CameraHelper(camera);
 camera.position.set(0, 10, 32);
 
-const tl = gsap.timeline();
-
+console.log(TWEEN);
 const renderer = new WebGLRenderer({ antialias: true, alpha: true });
 renderer.autoClear = false;
 renderer.shadowMap.enabled = true;
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setClearColor(0x000000, 1);
 const listener = new AudioListener();
-camera.add(listener);
 
 const seedScene = new SeedScene(listener);
 scene.add(seedScene);
@@ -61,10 +69,15 @@ composer.addPass(pass);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
-controls.enableZoom = false;
-controls.target.set(0, -3, 30);
+controls.enableZoom = true;
 
-animateCamera();
+controls.movementSpeed = 10;
+controls.rollSpeed = Math.PI / 24;
+controls.autoForward = false;
+controls.dragToLook = true;
+camera.position.set(6, 25 / 6.6, -25);
+controls.target.set(0, -25 / 2 + 2, -25 / 2);
+controls.update();
 // scene
 
 // render loop
@@ -73,8 +86,9 @@ const onAnimationFrameHandler = (timeStamp) => {
   timeStamp *= 0.001;
   const deltaTime = timeStamp - then;
   then = timeStamp;
-  controls.update();
   composer.render(deltaTime);
+  controls.update(deltaTime);
+
   seedScene.update && seedScene.update(timeStamp);
   window.requestAnimationFrame(onAnimationFrameHandler);
 };
@@ -95,6 +109,7 @@ window.addEventListener('resize', windowResizeHanlder);
 // dom
 initDefaultStyles();
 createLoaderScreen();
+createCinematicDisplay();
 //renderer
 
 document.body.appendChild(renderer.domElement);
@@ -109,6 +124,7 @@ function createLoaderScreen() {
   loaderScreen.style.display = 'flex';
   loaderScreen.style.justifyContent = 'center';
   loaderScreen.style.alignItems = 'center';
+
   document.body.appendChild(loaderScreen);
 
   const loadingBar = document.createElement('div');
@@ -146,21 +162,23 @@ function initDefaultStyles() {
   renderer.domElement.style.display = 'block';
 }
 
-function animateCamera() {
-  tl.to(controls.target, {
-    duration: 18,
-    y: 6,
-    z: 0,
-    ease: 'slow(0.7, 0.7, false)',
-  }).to(
-    camera.position,
-    {
-      duration: 20,
-      z: 5,
-      y: 10,
-      x: 0,
-      ease: 'slow(0.7, 0.7, false)',
-    },
-    '-=4',
-  );
+function createCinematicDisplay() {
+  const nav = document.createElement('nav');
+  const footer = document.createElement('footer');
+  nav.style.backgroundColor = 'black';
+  footer.style.backgroundColor = 'black';
+  nav.style.width = '100%';
+  footer.style.width = '100%';
+  nav.style.height = '55px';
+  footer.style.height = '55px';
+  nav.style.zIndex = '100';
+  footer.style.zIndex = '100';
+  nav.style.position = 'fixed';
+  footer.style.position = 'fixed';
+  nav.style.top = '0';
+  footer.style.bottom = '0';
+  nav.style.left = '0';
+  footer.style.left = '0';
+  document.body.appendChild(nav);
+  document.body.appendChild(footer);
 }

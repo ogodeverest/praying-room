@@ -10,8 +10,7 @@ export default class Angel extends Group {
   }
 
   loadModel = (manager) => {
-    const url =
-      'https://raw.githubusercontent.com/ogodeverest/praying-room/master/src/objects/angel/object/scene.gltf';
+    const url = 'https://praying-room-data.web.app/objects/angel.glb';
 
     const loader = new GLTFLoader(manager);
 

@@ -5,13 +5,9 @@ import {
   Mesh,
   Object3D,
   ExtrudeGeometry,
-  CircleGeometry,
-  MeshStandardMaterial,
 } from 'three';
 import geometricGlowMesh from './effects/threex.geometricglowmesh';
-import addAtmosphereMaterial2DatGui from './effects/threex.atmospherematerialdatgui';
 import CrossLight from '../crossLight';
-import * as dat from 'dat.gui';
 
 export default class Cross extends Group {
   name = 'cross';
@@ -101,9 +97,5 @@ export default class Cross extends Group {
 
     const outsideUniforms = glowMesh.outsideMesh.material.uniforms;
     outsideUniforms.glowColor.value.set(0xae0306);
-
-    // var datGUI = new dat.GUI();
-    // addAtmosphereMaterial2DatGui(glowMesh.insideMesh.material, datGUI);
-    // addAtmosphereMaterial2DatGui(glowMesh.outsideMesh.material, datGUI);
   }
 }

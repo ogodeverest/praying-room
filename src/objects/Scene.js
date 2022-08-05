@@ -7,7 +7,7 @@ import {
 } from 'three';
 import Room from './room';
 import BasicLights from './Lights';
-import fireSounds from '../audio/fire.mp3';
+import radiant from '../audio/radiant.mp3';
 
 export default class SeedScene extends Group {
   constructor(listener) {
@@ -23,20 +23,20 @@ export default class SeedScene extends Group {
     const sound = new Audio(listener);
 
     const audioLoader = new AudioLoader(manager);
-    audioLoader.load(fireSounds, (buffer) => {
+    audioLoader.load(radiant, (buffer) => {
       sound.setBuffer(buffer);
       sound.setLoop(true);
-      sound.setVolume(0.1);
+      sound.setVolume(2);
       sound.play();
     });
   };
+
   createLoadingManager = () => {
     this.manager = new LoadingManager();
 
     this.manager.onProgress = function (url, itemsLoaded, itemsTotal) {
       const loaderBar = document.querySelector('.loading__indicator');
       loaderBar.style.transform = `scaleX(${itemsLoaded / itemsTotal})`;
-      console.log(loaderBar.style.transform);
 
       if (itemsLoaded / itemsTotal === 1) {
         setTimeout(() => {
@@ -45,9 +45,4 @@ export default class SeedScene extends Group {
       }
     };
   };
-
-  update(time) {
-    const speed = time / 10;
-    this.room.animateRoom(speed);
-  }
 }
